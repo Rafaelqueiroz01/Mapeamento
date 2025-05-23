@@ -7,7 +7,7 @@ options <- list(
   sectionsColor = c(
     "#C3F3EC",
     "#FE9199",
-    "#FFADB2",
+    "#01131a",
     "#FFCAB1",
     "#C3F3EC",
     "#FFFFFF",
@@ -23,7 +23,10 @@ ui <- fullPage(
   menu = c(
     "Capa" = "capa",
     "Mapa de Navegação" = "navegacao",
-    "Nível da Análise" = "n_analise"
+    "Nível da Análise" = "n_analise",
+    "Brasil"="slide_brasil",
+    "Departamento Regional"="slide_DR",
+    "Unidade"="slide_unidade"
   ),
   tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")),
   #### 01 - slide - Capa ####
@@ -42,11 +45,54 @@ ui <- fullPage(
   #### 03 - slide - Nível de Análise #### 
   fullSection(
     menu = "n_analise",
+    #img = "fundo.jpg",
     fullContainer(
-      h1("Nível da Análise"),
-      fullButtonTo("Brasil", section = 4),
-      fullButtonTo("Departamento Regional", section = 5),
+      tags$h1("Nível da Análise:", style = "color:#FFFFFF"),
+      #### Grupo 1 ####
+      hr(),
+      div( style = "background-color: white; padding: 10px; border-radius: 8px;",
+      fullButtonTo("Brasil", section = 4)
+      ),
+      #### Grupo 2 ####
+      hr(),
+      div( style = "background-color: white; padding: 10px; border-radius: 8px;",
+      fullButtonTo("Departamento Regional", section = 5)
+      ),
+      #### Grupo 3 ####
+      hr(),
+      div( style = "background-color: white; padding: 10px; border-radius: 8px;",
       fullButtonTo("Unidade", section = 6)
+      )
+    )
+  ),
+  #### 04 - slide - Brasil ####
+  fullSection(
+    menu = "slide_brasil",
+    fullSlide(
+      h1("Slide 1")
+    ),
+    fullSlide(
+      h1("Slide 2")
+    )
+  ),
+  #### 05 - slide - DR ####
+  fullSection(
+    menu = "slide_DR",
+    fullSlide(
+      h1("Slide 1")
+    ),
+    fullSlide(
+      h1("Slide 2")
+    )
+  ),
+  #### 06 - slide - Brasil ####
+  fullSection(
+    menu = "slide_unidade",
+    fullSlide(
+      h1("Slide 1")
+    ),
+    fullSlide(
+      h1("Slide 2")
     )
   )
 )

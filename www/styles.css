@@ -1,3 +1,4 @@
 #tocMenu > li.active > a {
-  background-color: rgba(128, 0, 32, 0.3); /* 70% opacidade */
+  background-color: rgba(128, 0, 32, 0.3); 
 }
+
