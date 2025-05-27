@@ -2,3 +2,72 @@
   background-color: rgba(128, 0, 32, 0.3); 
 }
 
+/* Acordeão */
+.acordeao {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.acordeao-header {
+    background: linear-gradient(165deg, #000080, #FDF5E6);
+    color: #FFFFFF;
+    padding: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    text-align: left;
+    outline: none;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.acordeao-header:hover {
+    background-color: #0000FFA0;
+}
+
+.acordeao-content {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 15px;
+    background-color: white;
+    color: #000000;
+    border-top: 1px solid #ccc;
+    transition: max-height 0.5s ease-out, 
+    padding 0.3s ease-out;
+    text-align: justify;
+}
+
+.acordeao-active {
+    max-height: 200px;
+    padding: 5px 15px 0 15px;
+    transition: max-height 0.5s ease-in,
+    padding 0.3s ease-in;
+}
+
+.acordeao-container-two-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.acordeao-column {
+  flex: 1 1 48%; /* ocupa ~metade da largura, com espaçamento */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .acordeao-container-two-columns {
+    flex-direction: column;
+  }
+
+  .acordeao-column {
+    flex: 1 1 100%;
+  }
+}
+

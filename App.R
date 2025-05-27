@@ -25,8 +25,8 @@ ui <- fullPage(
     "Mapa de Navegação" = "navegacao",
     "Nível da Análise" = "n_analise",
     "Brasil"="slide_brasil",
-    "Departamento Regional"="slide_DR",
-    "Unidade"="slide_unidade"
+    "Departamento Regional"="slide_DR"
+    #"Unidade"="slide_unidade"
   ),
   tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")),
   #### 01 - slide - Capa ####
