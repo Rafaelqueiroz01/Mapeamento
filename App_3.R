@@ -17,7 +17,7 @@ accordion_item <- function(titulo, conteudo) {
 
 options <- list(
   sectionsColor = c(
-    "#C3F3EC", "#FE9199", "#f5f4ef", "#01131a",
+    "#f5f4ef", "#FE9199", "#f5f4ef", "#01131a",
     "#C3F3EC", "#FFFFFF", "#FE9199", "#FFADB2"
   )
 )
@@ -56,7 +56,11 @@ ui <- fullPage(
   useShinyalert(),
   
   #### 01 - Capa ####
-  fullSectionImage(menu = "capa", img = "capa_2.jpg", h1(" ")),
+  fullSectionImage(menu = "capa", img = "capa_2.jpg",  style = "
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  ",h1(" ")),
   
   #### 02 - Navegação ####
   fullSectionImage(menu = "navegacao", img = "navegacao.jpg", h1(" ")),
@@ -135,7 +139,7 @@ ui <- fullPage(
               actionButton("btn_login", "Entrar"),
               
               br(), br()
-             
+              
           )
       )
     ),
@@ -184,7 +188,7 @@ server <- function(input, output, session){
         title = "Login realizado com sucesso!",
         text = "Os conteúdos restritos foram desbloqueados.",
         type = "success",
-        timer = 3000
+        timer = 4000
       )
       
     } else {
