@@ -3,6 +3,7 @@ library(fullPage)
 library(shiny)
 library(shinyjs)
 library(shinyWidgets)
+library(shinyalert)
 
 #### Cores das Seções ####
 accordion_item <- function(titulo, conteudo) {
@@ -21,6 +22,13 @@ options <- list(
   )
 )
 
+#### Exemplo login ####
+usuarios <- data.frame(
+  login = c("RJ - 00001", "SP - 00002"),
+  senha = c("1234", "abcd"),
+  stringsAsFactors = FALSE
+)
+
 #### Início UI ####
 ui <- fullPage(
   center = TRUE,
@@ -31,19 +39,21 @@ ui <- fullPage(
     "Objeto da Pesquisa" = "objeto_pesquisa",
     "Nível da Análise" = "n_analise",
     "Brasil" = "slide_brasil",
-    "Departamento Regional" = "slide_dr"
+    "Departamento Regional" = "slide_dr",
+    "Unidade" = "slide_unidade"
     
   ),
   
   tags$head(
-    # CSS personalizado
+    #### CSS personalizado ####
     tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
-    # JS personalizado
+    #### JS personalizado ####
     tags$script(src = "scriot.js")
   ),
   
-  # Necessário para rodar JS no Shiny
+  #### Necessário para rodar JS no Shiny ####
   useShinyjs(),
+  useShinyalert(),
   
   #### 01 - Capa ####
   fullSectionImage(menu = "capa", img = "capa_2.jpg", h1(" ")),
@@ -113,24 +123,80 @@ ui <- fullPage(
   #### 07 - Unidade ####
   fullSection(
     menu = "slide_unidade",
-    fullSlide(h1("Sessão de Senha")),
-    fullSlide(h1("Slide 2"))
+    
+    #### Slide de login ####
+    fullSlide(
+      div(class = "login-container",
+          div(class = "login-box",
+              h1("Área restrita", style = "color: #800020;"),
+              
+              textInput("login_input", "Login:", placeholder = "ex: RJ - 00001"),
+              passwordInput("senha_input", "Senha:", placeholder = "Digite sua senha"),
+              actionButton("btn_login", "Entrar"),
+              
+              br(), br()
+             
+          )
+      )
+    ),
+    
+    #### Slides restritos ####
+    fullSlide(id = "slide_unidade_2", h1("Slide 2 - Conteúdo restrito")),
+    fullSlide(id = "slide_unidade_3", h1("Slide 3 - Conteúdo restrito"))
   )
-  
 )
-
 #### Server ####
 server <- function(input, output, session){
-  # Evita rodar o JS mais de uma vez
+  library(dplyr)
   flag <- reactiveVal(FALSE)
+  
+  #### Exemplo de base de usuários ####
+  usuarios <- data.frame(
+    login = c("RJ - 00001", "SP - 00002"),
+    senha = c("1234", "abcd"),
+    stringsAsFactors = FALSE
+  )
+  
+  #### Esconde os slides restritos inicialmente ####
+  shinyjs::hide("slide_unidade_2")
+  shinyjs::hide("slide_unidade_3")
   
   observe({
     if (!flag()) {
-      # ⚠️ Chamada da função JavaScript definida no scriot.js
       shinyjs::runjs('configurarAcordeons();')
       flag(TRUE)
     }
   })
+  
+  #### Validação de login ####
+  observeEvent(input$btn_login, {
+    req(input$login_input, input$senha_input)
+    
+    usuario_encontrado <- usuarios %>%
+      filter(login == input$login_input, senha == input$senha_input)
+    
+    if (nrow(usuario_encontrado) == 1) {
+      shinyjs::hide("msg_login_erro")
+      shinyjs::show("slide_unidade_2")
+      shinyjs::show("slide_unidade_3")
+      
+      shinyalert(
+        title = "Login realizado com sucesso!",
+        text = "Os conteúdos restritos foram desbloqueados.",
+        type = "success",
+        timer = 3000
+      )
+      
+    } else {
+      shinyalert(
+        title = "Login inválido!",
+        text = "Usuário ou senha incorretos. Tente novamente.",
+        type = "error",
+        timer = 4000
+      )
+    }
+  })
 }
+
 
 shinyApp(ui, server)
